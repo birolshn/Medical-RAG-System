@@ -259,40 +259,15 @@ The hardest problem was balancing multilingual query handling with a lightweight
 
 ## Scenario Question
 
-If L40S is unavailable and results are needed by end of week, I would not block on the original provider.
+If L40S were unavailable and I still needed results by the end of the week, I would not wait on the original provider.
 
-Immediate plan:
+My first step would be to freeze the benchmark spec so the experiment stays comparable across environments: model version, quantization setting, prompt set, output schema, latency metrics, quality metrics, and acceptance criteria. I would then send my manager a short async update explaining the fallback plan and proceed unless they raised a concern.
 
-1. Freeze the benchmark spec first: model name, quantization level, prompt set, output format, latency and quality metrics, and acceptance criteria.
-2. Send my manager an async update with the fallback plan and proceed unless they object.
-3. Spin up the benchmark on an alternative platform the same day.
+In parallel, I would check alternative platforms such as RunPod, Lambda Labs, Vast.ai, Together AI, Fireworks, and Hugging Face Inference Endpoints. My choice would depend on whether I needed raw GPU access or just reliable hosted inference. If speed and fit were the priority, I would prefer H100 80GB. If that was unavailable or too expensive, I would move to 2x A100 80GB or another tensor-parallel A100 setup. If only smaller GPUs were available, I would use a quantized version of the model, such as AWQ or GPTQ, and document the trade-off clearly.
 
-Fallback platforms I would check in parallel:
+I would start with a small smoke test of around 20 questions to verify prompt formatting, logging, latency, and output quality before committing more time or money. After that, I would run the full benchmark, ideally overnight, and save everything needed for reproducibility: prompts, outputs, latency, token counts, GPU type, VRAM, model revision, and decoding settings.
 
-- `RunPod`: fast access to `A100` or `H100`, good for short-lived benchmark runs
-- `Lambda Labs`: straightforward GPU rental, often good `A100 80GB` availability
-- `Vast.ai`: cheapest option, but more operational variance
-- `Together AI` or `Fireworks`: hosted inference if raw GPU access is not necessary
-- `Hugging Face Inference Endpoints`: clean deployment path if we want a reproducible managed endpoint
-
-Hardware fallback logic:
-
-- If the 70B model fits and speed matters, use `H100 80GB`
-- If `H100` is expensive or unavailable, use `2x A100 80GB` or tensor-parallel `A100`
-- If only smaller cards are available, use an `AWQ` or `GPTQ` quantized checkpoint and clearly document the quantization trade-off
-
-Trade-offs:
-
-- Managed inference is fastest to start but gives less control over kernels and batching
-- Raw GPU rental gives more control and cheaper repeated runs, but setup time is higher
-- Quantization improves feasibility and cost, but may shift medical QA quality, so I would benchmark both full precision and quantized if time allows
-
-Execution details:
-
-- Start with a 20-question smoke test to validate prompt formatting, throughput, and output logging
-- Then run the full benchmark overnight
-- Save prompts, raw outputs, latency, token counts, GPU type, VRAM, model revision, and decoding settings so results are reproducible
-- Deliver the end-of-week report with both quality and cost/latency trade-offs, not just a single score
+In the final report, I would present not only the quality results, but also the operational trade-offs: hardware used, cost, latency, and any quality difference caused by quantization or platform changes.
 
 ## AI Usage
 
