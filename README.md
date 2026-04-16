@@ -296,4 +296,9 @@ Execution details:
 
 ## AI Usage
 
-I used AI assistance for code scaffolding, debugging, and editing support, then reviewed and adjusted the implementation manually.
+I used AI assistance selectively for a few harder parts of the take-home:
+- understanding and validating the Reciprocal Rank Fusion (RRF) implementation details
+- refining parts of the README, especially the written explanations of retrieval trade-offs and evaluation
+- debugging a few integration issues during development
+
+The overall project structure, PubMed pipeline, retrieval flow, evaluation setup, environment configuration, and final integration were implemented and reviewed manually.
