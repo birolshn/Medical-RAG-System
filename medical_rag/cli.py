@@ -13,6 +13,11 @@ from medical_rag.config import (
 )
 from medical_rag.utils import read_json
 
+DEFAULT_RAG_QUERIES = [
+    "How does patient activation affect diabetes self-care adherence?",
+    "What diagnostic markers are shared between IgA nephropathy and celiac disease?",
+]
+
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser()
@@ -65,11 +70,10 @@ def main() -> None:
         return
 
     if args.command == "rag":
-        from medical_rag.evaluation import EVAL_QUERIES
         from medical_rag.rag import run_rag_demo
 
         payload = read_json(args.corpus_path)
-        queries = args.query or [EVAL_QUERIES[0]["query"], EVAL_QUERIES[1]["query"]]
+        queries = args.query or DEFAULT_RAG_QUERIES
         try:
             run_rag_demo(payload, args.method, args.model_name, queries, args.output_path)
             print(args.output_path)
@@ -78,7 +82,7 @@ def main() -> None:
         return
 
     if args.command == "run-all":
-        from medical_rag.evaluation import EVAL_QUERIES, evaluate_methods
+        from medical_rag.evaluation import evaluate_methods
         from medical_rag.pipeline import build_corpus
         from medical_rag.rag import run_rag_demo
 
@@ -97,7 +101,7 @@ def main() -> None:
                 corpus_payload,
                 evaluation_payload["best_method"],
                 args.model_name,
-                [EVAL_QUERIES[0]["query"], EVAL_QUERIES[1]["query"]],
+                DEFAULT_RAG_QUERIES,
                 args.output_path,
             )
             print(args.output_path)

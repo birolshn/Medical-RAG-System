@@ -83,25 +83,25 @@ python main.py rag
 Example query:
 
 ```text
-What are the latest guidelines for managing type 2 diabetes?
+How does patient activation affect diabetes self-care adherence?
 ```
 
 Example model behavior from `results/rag_demo.json`:
 
 ```text
-The provided context is insufficient to determine the latest guidelines for managing type 2 diabetes.
+Patient activation is positively associated with diabetes self-care adherence and lower diabetes distress.
 ```
 
 Example retrieved documents:
 
-- `Kidney disease and heart failure: recent advances and current challenges: conclusions from a Kidney Disease: Improving Global Outcomes (KDIGO) Controversies Conference.` (PMID: `41791738`)
 - `Breaking the cycle: patient activation role in improving diabetes self-care adherence for alleviating diabetes distress.` (PMID: `41848224`)
+- `Understanding barriers and facilitators of adherence to lifestyle changes in prediabetes: a qualitative study.` (PMID: `41817101`)
 
 Why this example is useful:
 
 - it shows the system is grounded in retrieved context rather than hallucinating
-- it refuses to invent guidelines when the retrieved papers do not actually contain them
-- that behavior is safer for a medical QA workflow
+- it gives a direct evidence-based answer when the retrieved documents really support the question
+- that behavior is safer and more useful for a medical QA workflow
 
 ## Approach
 
